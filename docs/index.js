@@ -5,7 +5,8 @@ import { once   } from "./scripts/once.js";
 import { touch  } from "./scripts/touch.js";
 import { circle } from "./scripts/circle.js";
 import { sfx    } from "./scripts/sfx.js";
-import { music  } from "./scripts/music.js";
+//import { music  } from "./scripts/music.js";
+import { music  } from "./grinding_sleep.js";
 
 const photos = [
     "photos/palace_of_electricity.jpg",
@@ -117,7 +118,7 @@ t_source.stops(open_loops).starts(do_source, close_onces);
 t_auto  .stops(open_loops).starts(do_auto  , close_onces);
 t_info  .stops(open_loops).starts(do_info  , close_onces);
 t_back  .stops(open_loops).starts(do_back  , close_onces);
-t_play  .stops(open_loops).starts(do_play  , close_onces);
+t_play  .stops(open_loops).starts(music, do_play  , close_onces);
 t_clear .stops(open_loops).starts(do_clear , close_onces);
 
 do_open.starts(open_loops, open_touches);
