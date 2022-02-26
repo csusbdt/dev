@@ -22,6 +22,10 @@ c_once.prototype.check_vert = mixin.check_vert;
 //	return this;
 //}
 
+c_once.prototype.copy = function() {
+	return new c_once(this.frames, this.z_index, this.x, this.y);	
+};
+
 c_once.prototype.starts = mixin.starts;
 c_once.prototype.stops  = mixin.stops;
 
