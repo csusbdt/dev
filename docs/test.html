@@ -1,0 +1,104 @@
+<html><head><title>dev</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<style>
+body {
+    background-color: lightgray;
+}
+canvas {
+    z-index: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+}
+img {
+    display: none;
+}
+</style>
+</head><body><canvas id="canvas"></canvas>
+<img id="i_flowers_0" src="photos/flowers_0.jpg" />
+<script type="module" src="test.js"></script>
+<script type="module">
+import { set_draw } from "./test.js";
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//  https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Using_images
+//
+// read this
+//
+// and this: https://developer.mozilla.org/en-US/docs/Web/API/HTMLVideoElement
+//
+// for browser-to-browser adio/video streams:
+//     https://developer.mozilla.org/en-US/docs/Web/Media  -- OVERVIEW
+//     https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API
+//     https://developer.mozilla.org/en-US/docs/Web/API/MediaStream_Recording_API
+//     https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement
+//     https://developers.google.com/youtube/documentation
+//
+////////////////////////////////////////////////////////////////////////////////
+
+const rt3 = Math.sqrt(3);
+const i_flowers_0 = document.getElementById("i_flowers_0");
+
+function speech_baloon(ctx) {
+    ctx.strokeStyle = "black";
+    ctx.beginPath();
+    ctx.moveTo(75, 25);
+    ctx.quadraticCurveTo(25, 25, 25, 62.5);
+    ctx.quadraticCurveTo(25, 100, 50, 100);
+    ctx.quadraticCurveTo(50, 120, 30, 125);
+    ctx.quadraticCurveTo(60, 120, 65, 100);
+    ctx.quadraticCurveTo(125, 100, 125, 62.5);
+    ctx.quadraticCurveTo(125, 25, 75, 25);
+    ctx.stroke();
+}
+
+function roundedRect(ctx, x, y, width, height, radius) {
+    ctx.beginPath();
+    ctx.moveTo(x, y + radius);
+    ctx.arcTo(x, y + height, x + radius, y + height, radius);
+    ctx.arcTo(x + width, y + height, x + width, y + height - radius, radius);
+    ctx.arcTo(x + width, y, x + width - radius, y, radius);
+    ctx.arcTo(x, y, x, y + radius, radius);
+    ctx.stroke();
+}
+
+set_draw(ctx => {
+    ctx.save();
+
+    ctx.save();
+    ctx.translate(-i_flowers_0.width/2, -i_flowers_0.height/2);
+    ctx.drawImage(i_flowers_0, 0, 0);
+    ctx.restore();
+
+    ctx.font = '48px serif';
+    ctx.fillText('Hello', -20, -100, 50);
+
+    const lg = ctx.createLinearGradient(0, 0, 0, 120);
+    lg.addColorStop(0, 'rgba(255, 0, 0, 0)');  
+    lg.addColorStop(.1, 'rgba(255, 0, 0, 1)');  
+    lg.addColorStop(1, 'rgba(255, 0, 0, 1)');  
+
+    ctx.beginPath();
+    ctx.moveTo(  0, -30);
+    ctx.lineTo( 30,  30);
+    ctx.lineTo(-30,  30);
+    ctx.closePath();
+    ctx.fillStyle = lg;
+    ctx.fill();
+    ctx.restore();
+
+    ctx.strokeStyle = "red";
+    ctx.beginPath();
+    ctx.arc(0, 0, rt3/2*60, 0, Math.PI * 2, true);
+    ctx.stroke();
+
+    speech_baloon(ctx);
+    
+    roundedRect(ctx, -100, -100, 50, 50, 8);
+    ctx.fill();
+});
+
+</script></body></html>
