@@ -1,4 +1,4 @@
-function c_loop(frames, z_index = 10, x = 0, y = 0) {
+export function c_loop(frames = [], z_index = 10, x = 0, y = 0) {
 	this.frames = frames;
 	this.z_index = z_index;
 	this.x = x;

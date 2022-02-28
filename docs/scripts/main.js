@@ -38,6 +38,8 @@ window.addEventListener('unhandledrejection', function(e) {
 //                         touch                         //
 ///////////////////////////////////////////////////////////
 
+const canvas = document.getElementById("canvas");
+
 window.audio_context = null;
 window.page_touch    = null;
 
@@ -54,14 +56,13 @@ const on_touch = (x, y) => {
 const mousemove = e => {
 	e.preventDefault();
 	e.stopImmediatePropagation();
-	a_canvas.style.cursor = 'default';
+	canvas.style.cursor = 'default';
 };
 
 const mousedown = e => {
 	e.preventDefault();
 	e.stopImmediatePropagation();
-	a_canvas.style.cursor = 'default';
-//	on_touch(design_coords(e));
+	canvas.style.cursor = 'default';
 	on_touch(e.pageX, e.pageY);
 };
 
@@ -71,8 +72,7 @@ const mousedown = e => {
 const touchend = e => {
 	e.preventDefault();
 	e.stopImmediatePropagation();
-	a_canvas.style.cursor = 'none';
-//	on_touch(design_coords(e.changedTouches[0]));
+	canvas.style.cursor = 'none';
 	on_touch(e.changedTouches[0].pageX, e.changedTouches[0].pageY);
 };
 
@@ -91,38 +91,43 @@ document.addEventListener('touchmove', touchmove, { passive: false });
 
 window.dirty      = true;  // to redraw canvas
 
-let design_width  = 400;
-let design_height = 400;
+//let design_width  = 400;
+//let design_height = 400;
 
-window.set_design_size = function(w, h) {
- 	design_width = w;
- 	design_height = h;
-}
+//window.set_design_size = function(w, h) {
+// 	design_width = w;
+// 	design_height = h;
+//}
 
 // alpha === false speeds up drawing of transparent images
-const ctx = a_canvas.getContext('2d', { alpha: true });
+const ctx = canvas.getContext('2d', { alpha: true });
 
 let scale      = 1;
-let left       = 0;
-let top        = 0;
+//let left       = 0;
+//let top        = 0;
 
 function adjust_canvas() {
-	let w = window.innerWidth;
-	let h = window.innerHeight;
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+//	let w = window.innerWidth;
+//	let h = window.innerHeight;
 	
-	scale = Math.min(1, w / design_width, h / design_height);
-	a_canvas.width  = scale * design_width;
-	a_canvas.height = scale * design_height;
+	//scale = Math.min(1, w / design_width, h / design_height);
+	//a_canvas.width  = scale * design_width;
+	//a_canvas.height = scale * design_height;
 
 	// Center canvas in browser window.
-	left = (w  - a_canvas.width ) / 2;
-	top  = (h - a_canvas.height)  / 2;
-	a_canvas.style.left = left;
-	a_canvas.style.top  = top;
+	//left = (w  - a_canvas.width ) / 2;
+	//top  = (h - a_canvas.height)  / 2;
+	//a_canvas.style.left = left;
+	//a_canvas.style.top  = top;
 
-	// Set drawing context transform to scale 
-    // design coordinates to display coordinates.
-	ctx.setTransform(scale, 0, 0, scale, 0, 0);
+//	// Set drawing context transform to scale 
+//    // design coordinates to display coordinates.
+//	ctx.setTransform(scale, 0, 0, scale, 0, 0);
+
+    ctx.translate(window.innerWidth / 2, window.innerHeight / 2);
 
 	// Redraw canvas.
 	dirty = true;
@@ -151,9 +156,10 @@ window.canvas_touch = null;
 
 page_touch = (page_x, page_y) => {
 	if (canvas_touch !== null) {
-		const design_x = (page_x - left) / scale;
-		const design_y = (page_y - top ) / scale;
-		canvas_touch(design_x, design_y);
+		//const design_x = (page_x - left) / scale;
+		//const design_y = (page_y - top ) / scale;
+		//canvas_touch(design_x, design_y);
+		canvas_touch(page_x - canvas.width / 2, page_y - canvas.height / 2);
 	}
 };
 
@@ -178,10 +184,11 @@ function animation_loop() {
 	if (dirty) {
 //		ctx.fillStyle = 'black'; // window.background_color;
 //		ctx.fillRect(0, 0, design_width, design_height);
-		ctx.save();
+//		ctx.save();
 		ctx.setTransform(1, 0, 0, 1, 0, 0);	
-		ctx.clearRect(0, 0, a_canvas.width, a_canvas.height);
-		ctx.restore();
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+//		ctx.restore();
+        ctx.setTransform(1, 0, 0, 1, canvas.width / 2, canvas.height / 2);	
 		drawables.forEach(o => o.draw(ctx));
 		dirty = false;
 	}

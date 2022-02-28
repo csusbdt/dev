@@ -15,6 +15,7 @@ c_frame.prototype.draw = function(ctx, x = 0, y = 0, pivot_x = 0, pivot_y = 0, s
 	this.check_vert();
 	if (this.image !== null) {
 		ctx.save();
+        ctx.translate(-this.image.width / 2, -this.image.height / 2);
 		ctx.translate(this.pivot_x + pivot_x, this.pivot_y + pivot_y);
 		ctx.scale(this.scale * scale, this.scale * scale);
 		ctx.translate(-this.pivot_x - pivot_x, -this.pivot_y - pivot_y);
