@@ -1,5 +1,5 @@
 import "./scripts/main.js";
-import { frame  } from "./scripts/frame.js";
+import { frames  } from "./scripts/frame.js";
 import { c_loop, loop } from "./scripts/loop.js";
 import { once   } from "./scripts/once.js";
 import { touch  } from "./scripts/touch.js";
@@ -11,7 +11,7 @@ import { music  } from "./grinding_sleep.js";
 const description_div = document.getElementById("description");
 
 function photo(img = null, description = "", bgcolor = "lightgray") {
-    const p = loop(frame(img));
+    const p = loop(frames(img));
     p.description = description;
     p.bgcolor = bgcolor;
     p.start = function() {
@@ -21,14 +21,17 @@ function photo(img = null, description = "", bgcolor = "lightgray") {
     return p;
 }
 
+// "rgb(255,218,185)"
+
 const photos = [
-    photo(i_flowers_0, "", "rgb(255,218,185)"),
+    photo(i_flowers_0, "", "black"),
     photo(i_palace_of_electricity, "Palace of Electricty, Paris, 1900", "white"),
     photo(i_after_boston_fire_1872, "After the Boston fire, 1872", "rgb(250,250,210)"),
     photo(i_maybe_san_francisco, "Maybe San Francisco", "gray"),
     photo(i_san_francisco_cliff_house_1899, "San Francisco Cliff House, 1899", "white"),
     photo(i_jama_masjid_delhi_india_late_1800s, "Jama Masjid Delhi India, late 1800's", "white"),
 ];
+
 
 let photo_index = 0;
 let photo_index_string = localStorage.getItem("dev_photo_index");
@@ -45,8 +48,8 @@ if (photo_index_string !== null) {
 
 //const thud = sfx("../sfx/thud_0.966.mp3", .5);
 //const blop = sfx("../sfx/blop_0.264.mp3", .5);
-const tick = sfx("../sfx/tick_0.157.mp3", .5);
-
+//const tick = sfx("../sfx/tick_0.157.mp3", .5);
+const click = sfx("../sfx/click_0.888.mp3" , .5);
 
 
 //const next   = loop(frame(i_next_0  ));
@@ -115,7 +118,7 @@ const tick = sfx("../sfx/tick_0.157.mp3", .5);
 //const do_play      = once(delay_frames);
 //const do_clear     = once(delay_frames);
 
-const t_next = touch().starts(tick);
+const t_next = touch().starts(click);
 //const t_open   = touch().starts(thud);
 //const t_close  = touch().starts(thud);
 //const t_next   = touch(circle(0, 0, 48)).starts(blop);
