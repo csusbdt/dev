@@ -1,3 +1,14 @@
+import "./scripts/main.js";
+import { image } from "./scripts/image.js";
+
+const palace = image("photos/palace_of_electricity.jpg").fill();
+palace.start();
+
+window.addEventListener('resize', _ => {
+});
+
+
+/*
 const canvas = document.getElementById("canvas");
 const ctx    = canvas.getContext("2d");
 
@@ -23,3 +34,4 @@ function on_resize() {
 }
 window.addEventListener('resize', on_resize);
 window.addEventListener('load', on_resize);
+*/

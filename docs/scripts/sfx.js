@@ -39,7 +39,7 @@ c_sfx.prototype.fetch = function() {
 	}
 };
 
-// decode (decompressing) requires an audioContext, which requires user interaction 
+// decode (decompressing) requires an AudioContext, which requires user interaction.
 // Can only decode array_buffer once!
 c_sfx.prototype.decode = function() {
 	if (this.audio_buffer !== null) {
@@ -87,7 +87,7 @@ c_sfx.prototype.start = function() {
 		gain_node.gain.setValueAtTime(this.volume, audio_context.currentTime);	
 		buffer_source_node.start();
 	})
-	.catch(() => {}); // does this happen when still decoding?
+	.catch(e => log(e)); // does this happen when still decoding?
 };
 
 export const sfx = function(file, volume) {

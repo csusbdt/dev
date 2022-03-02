@@ -38,8 +38,7 @@ window.addEventListener('unhandledrejection', function(e) {
 //                         touch                         //
 ///////////////////////////////////////////////////////////
 
-const canvas = document.getElementById("canvas");
-
+window.canvas        = document.getElementById("canvas");
 window.audio_context = null;
 window.page_touch    = null;
 
@@ -102,7 +101,7 @@ window.dirty      = true;  // to redraw canvas
 // alpha === false speeds up drawing of transparent images
 const ctx = canvas.getContext('2d', { alpha: true });
 
-let scale      = 1;
+//let scale      = 1;
 //let left       = 0;
 //let top        = 0;
 
@@ -127,29 +126,30 @@ function adjust_canvas() {
 //    // design coordinates to display coordinates.
 //	ctx.setTransform(scale, 0, 0, scale, 0, 0);
 
-    ctx.translate(window.innerWidth / 2, window.innerHeight / 2);
+//    ctx.translate(window.innerWidth / 2, window.innerHeight / 2);
 
 	// Redraw canvas.
 	dirty = true;
 }
+adjust_canvas();
 
-window.on_horizontal = null;
-window.on_vertical   = null;
+//window.on_horizontal = null;
+//window.on_vertical   = null;
 
-let previous_w = window.innerWidth;
-let previous_h = window.innerHeight;
+//let previous_w = window.innerWidth;
+//let previous_h = window.innerHeight;
 
 window.addEventListener('resize', _ => {
 	adjust_canvas();
-	let w = window.innerWidth;
-	let h = window.innerHeight;
-	if (previous_w > previous_h && w < h) {
-		if (on_vertical !== null) on_vertical();
-	} else if (previous_w < previous_h && w > h) {
-		if (on_horizontal !== null) on_horizontal();
-	}
-	previous_w = w;
-	previous_h = h;
+//	let w = window.innerWidth;
+//	let h = window.innerHeight;
+//	if (previous_w > previous_h && w < h) {
+//		if (on_vertical !== null) on_vertical();
+//	} else if (previous_w < previous_h && w > h) {
+//		if (on_horizontal !== null) on_horizontal();
+//	}
+//	previous_w = w;
+//	previous_h = h;
 });
 
 window.canvas_touch = null;
@@ -188,7 +188,7 @@ function animation_loop() {
 		ctx.setTransform(1, 0, 0, 1, 0, 0);	
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 //		ctx.restore();
-        ctx.setTransform(1, 0, 0, 1, canvas.width / 2, canvas.height / 2);	
+//        ctx.setTransform(1, 0, 0, 1, canvas.width / 2, canvas.height / 2);	
 		drawables.forEach(o => o.draw(ctx));
 		dirty = false;
 	}
@@ -199,11 +199,11 @@ function animation_loop() {
 }
 
 addEventListener('load', () => {
-	if (horizontal() && on_horizontal !== null) {
-		on_horizontal();
-	} else if (vertical() && on_vertical !== null) {
-		on_vertical();
-	}
+//	if (horizontal() && on_horizontal !== null) {
+//		on_horizontal();
+//	} else if (vertical() && on_vertical !== null) {
+//		on_vertical();
+//	}
 	adjust_canvas();
 	requestAnimationFrame(animation_loop);
 });
@@ -226,13 +226,13 @@ window.clear_touchables = function() {
 };
 
 window.add_drawable = function(o) {
-	if (!('z_index' in o)) {
-		throw new Error(o);
+	if (!('z' in o)) {
+		throw new Error("z missing fram drawable");
 	}
 	if (!drawables.includes(o)) {
 		dirty = true;
 		for (let i = drawables.length; i > 0; --i) {
-			if (o.z_index >= drawables[i - 1].z_index) {
+			if (o.z >= drawables[i - 1].z) {
 				drawables.splice(i, 0, o);
 				return;
 			}

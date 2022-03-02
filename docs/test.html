@@ -1,8 +1,13 @@
 <html><head><title>dev</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <style>
+img {
+    display: none;
+}
 body {
     background-color: lightgray;
+    margin: 0;
+    padding: 0;
 }
 canvas {
     z-index: 0;
@@ -12,19 +17,18 @@ canvas {
     margin: 0;
     padding: 0;
 }
-img {
-    display: none;
-}
 </style>
-</head><body><canvas id="canvas"></canvas>
-<img id="i_flowers_0" src="photos/flowers_0.jpg" />
-<script type="module" src="test.js"></script>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script type="module" src="test.js"></script>
+
+<!--
 <script type="module">
 import { set_draw } from "./test.js";
 
-
 const rt3 = Math.sqrt(3);
-const i_flowers_0 = document.getElementById("i_flowers_0");
+const i_flowers = document.getElementById("i_flowers");
 
 function speech_baloon(ctx) {
     ctx.strokeStyle = "black";
@@ -53,8 +57,8 @@ set_draw(ctx => {
     ctx.save();
 
     ctx.save();
-    ctx.translate(-i_flowers_0.width/2, -i_flowers_0.height/2);
-    ctx.drawImage(i_flowers_0, 0, 0);
+    ctx.translate(-i_flowers.width/2, -i_flowers.height/2);
+    ctx.drawImage(i_flowers, 0, 0);
     ctx.restore();
 
     ctx.font = '48px serif';
@@ -85,4 +89,7 @@ set_draw(ctx => {
     ctx.fill();
 });
 
-</script></body></html>
+</script>
+-->
+    
+</body></html>

@@ -1,5 +1,5 @@
 import "./scripts/main.js";
-import { frames  } from "./scripts/frame.js";
+import { frame   } from "./scripts/frame.js";
 import { c_loop, loop } from "./scripts/loop.js";
 import { once   } from "./scripts/once.js";
 import { touch  } from "./scripts/touch.js";
@@ -11,7 +11,7 @@ import { music  } from "./grinding_sleep.js";
 const description_div = document.getElementById("description");
 
 function photo(img = null, description = "", bgcolor = "lightgray") {
-    const p = loop(frames(img));
+    const p = frame(img);
     p.description = description;
     p.bgcolor = bgcolor;
     p.start = function() {
@@ -24,7 +24,7 @@ function photo(img = null, description = "", bgcolor = "lightgray") {
 // "rgb(255,218,185)"
 
 const photos = [
-    photo(i_flowers_0, "", "black"),
+    photo(i_flowers, "", "black"),
     photo(i_palace_of_electricity, "Palace of Electricty, Paris, 1900", "white"),
     photo(i_after_boston_fire_1872, "After the Boston fire, 1872", "rgb(250,250,210)"),
     photo(i_maybe_san_francisco, "Maybe San Francisco", "gray"),
