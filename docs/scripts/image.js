@@ -45,7 +45,7 @@ c_image.prototype.draw = function(ctx, x = 0, y = 0, z = 0, s = 1) {
         ctx.drawImage(this.i, 0, 0);
         ctx.restore();
     }
-}
+};
 
 export function image(src, x = 0, y = 0, z = 0, s = 1) {
     return new c_image(src, x, y, z, s);
