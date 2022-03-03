@@ -5,7 +5,7 @@ img {
     display: none;
 }
 body {
-    background-color: lightgray;
+    background-color: whitesmoke;
     margin: 0;
     padding: 0;
 }
@@ -20,8 +20,21 @@ canvas {
 </style>
 </head>
 <body>
-    <canvas id="canvas"></canvas>
-    <script type="module" src="test.js"></script>
+<canvas id="canvas"></canvas>
+
+<script type="module">
+import "./scripts/main.js";
+import { image } from "./scripts/image.js";
+
+const palace = image("photos/palace_of_electricity.jpg").fill();
+palace.start();
+
+window.addEventListener('resize', _ => {
+});
+</script>
+
+</body>
+</html>
 
 <!--
 <script type="module">
@@ -92,4 +105,3 @@ set_draw(ctx => {
 </script>
 -->
     
-</body></html>
