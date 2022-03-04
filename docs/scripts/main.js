@@ -90,13 +90,30 @@ document.addEventListener('touchmove', touchmove, { passive: false });
 
 window.dirty      = true;  // to redraw canvas
 
-//let dw = null;
-//let dh = null;
+function center_canvas_in_window() {
+    removeEventListener('resize', fill_window_with_canvas, { capture: false });
+    canvas.style.left = (window.innerWidth  - canvas.width ) / 2;
+    canvas.style.top  = (window.innerHeight - canvas.height) / 2;    
+}
 
-//window.set_design_size = function(w = null, h = null) {
-// 	dw  = w;
-// 	dh = h;
-//}
+window.center_canvas = _ => {
+    addEventListener('resize', center_canvas_in_window, { capture: false });
+    center_canvas_in_window();
+};
+
+function fill_window_with_canvas() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+    dirty         = true;    
+}
+
+window.fill_window = _ => {
+    removeEventListener('resize', center_canvas_in_window, { capture: false });
+    canvas.style.left = 0;
+    canvas.style.top = 0;
+    addEventListener('resize', fill_window_with_canvas, { capture: false });
+    fill_window_with_canvas();
+};
 
 window.dw = null;
 window.dh = null;
@@ -107,53 +124,6 @@ const ctx = canvas.getContext('2d', { alpha: true });
 //let scale      = 1;
 //let left       = 0;
 //let top        = 0;
-
-function adjust_canvas() {
-//    canvas.width  = window.innerWidth;
-//    canvas.height = window.innerHeight;
-    
-//	let w = window.innerWidth;
-//	let h = window.innerHeight;
-	
-	//scale = Math.min(1, w / design_width, h / design_height);
-	//a_canvas.width  = scale * design_width;
-	//a_canvas.height = scale * design_height;
-
-	// Center canvas in browser window.
-	//left = (w  - a_canvas.width ) / 2;
-	//top  = (h - a_canvas.height)  / 2;
-	//a_canvas.style.left = left;
-	//a_canvas.style.top  = top;
-
-//	// Set drawing context transform to scale 
-//    // design coordinates to display coordinates.
-//	ctx.setTransform(scale, 0, 0, scale, 0, 0);
-
-//    ctx.translate(window.innerWidth / 2, window.innerHeight / 2);
-
-	// Redraw canvas.
-//	dirty = true;
-}
-adjust_canvas();
-
-//window.on_horizontal = null;
-//window.on_vertical   = null;
-
-//let previous_w = window.innerWidth;
-//let previous_h = window.innerHeight;
-
-window.addEventListener('resize', _ => {
-//	adjust_canvas();
-//	let w = window.innerWidth;
-//	let h = window.innerHeight;
-//	if (previous_w > previous_h && w < h) {
-//		if (on_vertical !== null) on_vertical();
-//	} else if (previous_w < previous_h && w > h) {
-//		if (on_horizontal !== null) on_horizontal();
-//	}
-//	previous_w = w;
-//	previous_h = h;
-});
 
 window.canvas_touch = null;
 
@@ -201,16 +171,9 @@ function animation_loop() {
 	requestAnimationFrame(animation_loop);
 }
 
-addEventListener('load', () => {
-//	if (horizontal() && on_horizontal !== null) {
-//		on_horizontal();
-//	} else if (vertical() && on_vertical !== null) {
-//		on_vertical();
-//	}
-//	adjust_canvas();
-//    dirty = true;
+addEventListener('load', _ => {
 	requestAnimationFrame(animation_loop);
-});
+}, { once: true });
 
 window.add_touchable = function(o) {
 	if (!touchables.includes(o)) {

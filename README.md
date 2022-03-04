@@ -1,3 +1,5 @@
+Arrow functions inherit the `this` binding of the context in which they are created.
+
 design principles
 -----------------
 canvas covers entire window
