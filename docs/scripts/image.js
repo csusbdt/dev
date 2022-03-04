@@ -1,16 +1,9 @@
-export function c_image(src, x = 0, y = 0, z = 0, s = 1) {
-    this.i     = new Image();
-    this.i.src = src;
+export function c_image(i, x = 0, y = 0, z = 0, s = 1) {
+    this.i     = i;
     this.x     = x;
     this.y     = y;
     this.z     = z;
     this.s     = s; 
-    this.fill_canvas = false;
-}
-
-c_image.prototype.fill = function() {
-    this.fill_canvas = true;
-    return this;
 }
 
 c_image.prototype.start = function() {
@@ -32,21 +25,31 @@ c_image.prototype.stopped = function() {
 };
 
 c_image.prototype.draw = function(ctx, x = 0, y = 0, z = 0, s = 1) {
-    if (this.i.complete) {
-        ctx.save();
-        ctx.setTransform(1, 0, 0, 1, 0, 0);
-        let scale = this.s * s;
-        if (this.fill_canvas) {
-            scale = Math.min(canvas.width / this.i.width, canvas.height / this.i.height);
-        }
-        ctx.scale(scale, scale);
+	ctx.save();
+	ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+    if (dw === null) {
+    	ctx.scale(this.s, this.s);
         ctx.translate(-this.i.width / 2, -this.i.height / 2);
-        ctx.translate(canvas.width / 2 / scale, canvas.height / 2 / scale);
-        ctx.drawImage(this.i, 0, 0);
-        ctx.restore();
+    	ctx.translate(canvas.width / 2 / s, canvas.height / 2 / s);        
+    	ctx.translate(this.x, this.y);        
+    } else {
+    	const ds = Math.min(canvas.width / dw, canvas.height / dh);
+    	ctx.scale(ds * this.s, ds * this.s);
+        ctx.translate(-this.i.width / 2, -this.i.height / 2);
+    	ctx.translate(this.x / this.s / ds, this.y / this.s / ds);        
+    	ctx.translate(canvas.width / this.s / ds / 2, canvas.height / this.s / ds / 2);        
     }
+    ctx.drawImage(this.i, 0, 0);
+    ctx.restore();
 };
 
-export function image(src, x = 0, y = 0, z = 0, s = 1) {
-    return new c_image(src, x, y, z, s);
+export function image(i, x = 0, y = 0, z = 0, s = 1) {
+    return new c_image(i, x, y, z, s);
+}
+
+export function bg(i) {
+    window.dw = i.width;
+    window.dh = i.height; 
+    return image(i, 0, 0, -10000);
 }

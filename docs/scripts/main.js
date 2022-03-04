@@ -90,13 +90,16 @@ document.addEventListener('touchmove', touchmove, { passive: false });
 
 window.dirty      = true;  // to redraw canvas
 
-//let design_width  = 400;
-//let design_height = 400;
+//let dw = null;
+//let dh = null;
 
-//window.set_design_size = function(w, h) {
-// 	design_width = w;
-// 	design_height = h;
+//window.set_design_size = function(w = null, h = null) {
+// 	dw  = w;
+// 	dh = h;
 //}
+
+window.dw = null;
+window.dh = null;
 
 // alpha === false speeds up drawing of transparent images
 const ctx = canvas.getContext('2d', { alpha: true });
@@ -106,8 +109,8 @@ const ctx = canvas.getContext('2d', { alpha: true });
 //let top        = 0;
 
 function adjust_canvas() {
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
+//    canvas.width  = window.innerWidth;
+//    canvas.height = window.innerHeight;
     
 //	let w = window.innerWidth;
 //	let h = window.innerHeight;
@@ -129,7 +132,7 @@ function adjust_canvas() {
 //    ctx.translate(window.innerWidth / 2, window.innerHeight / 2);
 
 	// Redraw canvas.
-	dirty = true;
+//	dirty = true;
 }
 adjust_canvas();
 
@@ -140,7 +143,7 @@ adjust_canvas();
 //let previous_h = window.innerHeight;
 
 window.addEventListener('resize', _ => {
-	adjust_canvas();
+//	adjust_canvas();
 //	let w = window.innerWidth;
 //	let h = window.innerHeight;
 //	if (previous_w > previous_h && w < h) {
@@ -204,7 +207,8 @@ addEventListener('load', () => {
 //	} else if (vertical() && on_vertical !== null) {
 //		on_vertical();
 //	}
-	adjust_canvas();
+//	adjust_canvas();
+//    dirty = true;
 	requestAnimationFrame(animation_loop);
 });
 

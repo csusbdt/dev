@@ -1,3 +1,12 @@
+design principles
+-----------------
+canvas covers entire window
+coordinate system origin is center of canvas/window
+objects are drawable if they have a property `z` and a draw(ctx) function
+drawables are scaled down
+
+
+
 https://www.redblobgames.com/grids/hexagons/
 
 https://creativecommons.org/publicdomain/zero/1.0/
