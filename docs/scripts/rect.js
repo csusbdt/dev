@@ -53,20 +53,24 @@ c_rect.prototype.stopped = function() {
 
 c_rect.prototype.inside = function(x, y) {
     this.check_vert();
-    //
-    //  TODO
-    //
-	return x >= this.left && x < this.right && y >= this.top && y < this.bottom;
+	return (
+        x >= this.x - this.w / 2 && 
+        x <  this.x + this.w / 2 && 
+        y >= this.y - this.h / 2 && 
+        y <  this.y + this.h / 2
+    );
 };
 
 c_rect.prototype.draw = function(ctx) {
     this.check_vert();
 	ctx.save();
+    
 	ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.beginPath();
     const s = (dw === null) ? 1 : Math.min(canvas.width / dw, canvas.height / dh);
     ctx.scale(s, s);
     ctx.translate(canvas.width / s / 2, canvas.height / s / 2);
+    
+    ctx.beginPath();
     ctx.strokeRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
     ctx.stroke();
     ctx.restore();

@@ -26,6 +26,14 @@ c_image.prototype.stopped = function() {
 
 c_image.prototype.draw = function(ctx, x = 0, y = 0, z = 0, s = 1) {
 	ctx.save();
+
+//	ctx.setTransform(1, 0, 0, 1, 0, 0);
+//    const s = (dw === null) ? 1 : Math.min(canvas.width / dw, canvas.height / dh);
+//    ctx.scale(s, s);
+//    ctx.translate(canvas.width / s / 2, canvas.height / s / 2);
+
+    
+    
 	ctx.setTransform(1, 0, 0, 1, 0, 0);
     const ds = (dw === null) ? this.s * s : this.s * s * Math.min(canvas.width / dw, canvas.height / dh);
     ctx.scale(ds, ds);

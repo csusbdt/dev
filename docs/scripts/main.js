@@ -34,146 +34,54 @@ window.addEventListener('unhandledrejection', function(e) {
 	}
 });
 
-///////////////////////////////////////////////////////////
-//                         touch                         //
-///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+//                           canvas                          //
+///////////////////////////////////////////////////////////////
 
-window.canvas        = document.getElementById("canvas");
-window.audio_context = null;
-window.page_touch    = null;
+window.canvas = document.createElement("canvas");
+canvas.style.zIndex   = 0;
+canvas.style.position = "absolute";
+canvas.style.top      = 0;
+canvas.style.left     = 0;
+canvas.style.padding  = 0;
+canvas.style.margin   = 0;
+document.body.appendChild(canvas);
 
-const on_touch = (x, y) => {
-	if (audio_context === null) {
-		audio_context = new (window.AudioContext || window.webkitAudioContext)();
-	}
-	if (audio_context.state === 'suspended') { // not sure this is needed
-		audio_context.resume();
-	}
-	if (page_touch !== null) page_touch(x, y);
+window.dw    = null; // design width, null means no scaling
+window.dh    = null; // design height
+window.dirty = true; // to redraw canvas
+
+window.set_design = (w, h) => {
+    dw    = w;
+    dh    = h;
+    dirty = true;
 };
 
-const mousemove = e => {
-	e.preventDefault();
-	e.stopImmediatePropagation();
-	canvas.style.cursor = 'default';
-};
-
-const mousedown = e => {
-	e.preventDefault();
-	e.stopImmediatePropagation();
-	canvas.style.cursor = 'default';
-	on_touch(e.pageX, e.pageY);
-};
-
-// the following touchend and touchmove code needed for fullscreen on chrome
-// see: https://stackoverflow.com/questions/42945378/full-screen-event-on-touch-not-working-on-chrome/42948120
-
-const touchend = e => {
-	e.preventDefault();
-	e.stopImmediatePropagation();
-	canvas.style.cursor = 'none';
-	on_touch(e.changedTouches[0].pageX, e.changedTouches[0].pageY);
-};
-
-const touchmove = e => {
-	e.preventDefault();
-};
-
-document.addEventListener('mousemove', mousemove, true);
-document.addEventListener('mousedown', mousedown, true); 
-document.addEventListener('touchend' , touchend , true); 
-document.addEventListener('touchmove', touchmove, { passive: false }); 
-
-///////////////////////////////////////////////////////////
-//                         canvas                        //
-///////////////////////////////////////////////////////////
-
-window.dirty      = true;  // to redraw canvas
-
-function center_canvas_in_window() {
-    removeEventListener('resize', fill_window_with_canvas, { capture: false });
-    canvas.style.left = (window.innerWidth  - canvas.width ) / 2;
-    canvas.style.top  = (window.innerHeight - canvas.height) / 2;    
+window.scale = _ => {
+    if (dw === null) {
+        return 1;
+    } else {
+        return Math.min(canvas.width / dw, canvas.height / dh);
+    }
 }
 
-window.center_canvas = _ => {
-    addEventListener('resize', center_canvas_in_window, { capture: false });
-    center_canvas_in_window();
-};
-
-function fill_window_with_canvas() {
+function on_resize() {
     canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
-    dirty         = true;    
+    dirty = true;
 }
-
-window.fill_window = _ => {
-    removeEventListener('resize', center_canvas_in_window, { capture: false });
-    canvas.style.left = 0;
-    canvas.style.top = 0;
-    addEventListener('resize', fill_window_with_canvas, { capture: false });
-    fill_window_with_canvas();
-};
-
-window.dw = null;
-window.dh = null;
+addEventListener('resize', on_resize, { capture: false             });
+addEventListener('load'  , on_resize, { capture: false, once: true });
 
 // alpha === false speeds up drawing of transparent images
 const ctx = canvas.getContext('2d', { alpha: true });
 
-//let scale      = 1;
-//let left       = 0;
-//let top        = 0;
+///////////////////////////////////////////////////////////////
+//                           touch                           //
+///////////////////////////////////////////////////////////////
 
-window.canvas_touch = null;
-
-page_touch = (page_x, page_y) => {
-	if (canvas_touch !== null) {
-		//const design_x = (page_x - left) / scale;
-		//const design_y = (page_y - top ) / scale;
-		//canvas_touch(design_x, design_y);
-		canvas_touch(page_x - canvas.width / 2, page_y - canvas.height / 2);
-	}
-};
-
-///////////////////////////////////////////////////////////
-//                       animation                       //
-///////////////////////////////////////////////////////////
-
-window.drawables  = [];
-window.updatables = [];
-window.touchables = [];
-
-canvas_touch = (x, y) => {
-	for (let i = 0; i < touchables.length; ++i) {
-		if (touchables[i].touch(x, y)) break;
-	}
-};
-
-let previous_time = new Date().getTime() / 1000;
-
-function animation_loop() {
-	const current_time = new Date().getTime() / 1000;
-	if (dirty) {
-//		ctx.fillStyle = 'black'; // window.background_color;
-//		ctx.fillRect(0, 0, design_width, design_height);
-//		ctx.save();
-		ctx.setTransform(1, 0, 0, 1, 0, 0);	
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
-//		ctx.restore();
-//        ctx.setTransform(1, 0, 0, 1, canvas.width / 2, canvas.height / 2);	
-		drawables.forEach(o => o.draw(ctx));
-		dirty = false;
-	}
-	let dt = current_time - previous_time;
-	updatables.slice().forEach(o => o.update(dt));
-	previous_time = current_time;
-	requestAnimationFrame(animation_loop);
-}
-
-addEventListener('load', _ => {
-	requestAnimationFrame(animation_loop);
-}, { once: true });
+window.audio_context = null;
+window.touchables    = [];
 
 window.add_touchable = function(o) {
 	if (!touchables.includes(o)) {
@@ -191,6 +99,80 @@ window.remove_touchable = function(o) {
 window.clear_touchables = function() {
  	touchables.length = 0;
 };
+
+const page_touch = (page_x, page_y) => {    
+	if (audio_context === null) {
+		audio_context = new (window.AudioContext || window.webkitAudioContext)();
+	}
+	if (audio_context.state === 'suspended') { // not sure this is needed
+		audio_context.resume();
+	}
+    const s = scale();
+	const x = (page_x - canvas.width  / 2) / s;
+	const y = (page_y - canvas.height / 2) / s;
+	for (let i = 0; i < touchables.length; ++i) {
+		if (touchables[i].touch(x, y)) break;
+	}
+};
+
+const mousemove = e => {
+	e.preventDefault();
+	e.stopImmediatePropagation();
+	canvas.style.cursor = 'default';
+};
+
+const mousedown = e => {
+	e.preventDefault();
+	e.stopImmediatePropagation();
+	canvas.style.cursor = 'default';
+	page_touch(e.pageX, e.pageY);
+};
+
+// the following touchend and touchmove code needed for fullscreen on chrome
+// see: https://stackoverflow.com/questions/42945378/full-screen-event-on-touch-not-working-on-chrome/42948120
+
+const touchend = e => {
+	e.preventDefault();
+	e.stopImmediatePropagation();
+	canvas.style.cursor = 'none';
+	page_touch(e.changedTouches[0].pageX, e.changedTouches[0].pageY);
+};
+
+const touchmove = e => {
+	e.preventDefault();
+};
+
+document.addEventListener('mousemove', mousemove, true);
+document.addEventListener('mousedown', mousedown, true); 
+document.addEventListener('touchend' , touchend , true); 
+document.addEventListener('touchmove', touchmove, { passive: false }); 
+
+///////////////////////////////////////////////////////////
+//                       animation                       //
+///////////////////////////////////////////////////////////
+
+window.drawables  = [];
+window.updatables = [];
+
+let previous_time = new Date().getTime() / 1000;
+
+function animation_loop() {
+	const current_time = new Date().getTime() / 1000;
+	if (dirty) {
+		ctx.setTransform(1, 0, 0, 1, 0, 0);	
+		ctx.clearRect(0, 0, canvas.width, canvas.height);	
+		drawables.forEach(o => o.draw(ctx));
+		dirty = false;
+	}
+	let dt = current_time - previous_time;
+	updatables.slice().forEach(o => o.update(dt));
+	previous_time = current_time;
+	requestAnimationFrame(animation_loop);
+}
+
+addEventListener('load', _ => {
+	requestAnimationFrame(animation_loop);
+}, { once: true });
 
 window.add_drawable = function(o) {
 	if (!('z' in o)) {
