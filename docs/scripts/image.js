@@ -33,7 +33,6 @@ c_image.prototype.draw = function(ctx, x = 0, y = 0, z = 0, s = 1) {
 //    ctx.translate(canvas.width / s / 2, canvas.height / s / 2);
 
     
-    
 	ctx.setTransform(1, 0, 0, 1, 0, 0);
     const ds = (dw === null) ? this.s * s : this.s * s * Math.min(canvas.width / dw, canvas.height / dh);
     ctx.scale(ds, ds);
@@ -48,7 +47,12 @@ export function image(i, x = 0, y = 0, z = 0, s = 1) {
 }
 
 export function background(i) {
-    window.dw = i.width;
-    window.dh = i.height; 
-    return image(i, 0, 0, -10000);
+    const o = image(i, 0, 0, -10000);
+    o.start = _ => {
+        window.dw = i.width;
+        window.dh = i.height; 
+        add_drawable(o);
+    	return o;
+    }
+    return o;
 }
