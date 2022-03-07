@@ -65,10 +65,10 @@ c_rect.prototype.draw = function(ctx) {
     this.check_vert();
 	ctx.save();
     
-	ctx.setTransform(1, 0, 0, 1, 0, 0);
-    const s = (dw === null) ? 1 : Math.min(canvas.width / dw, canvas.height / dh);
-    ctx.scale(s, s);
-    ctx.translate(canvas.width / s / 2, canvas.height / s / 2);
+//	ctx.setTransform(1, 0, 0, 1, 0, 0);
+//    const ds = scale();
+//    ctx.scale(ds, ds);
+//    ctx.translate(canvas.width/ds/2, canvas.height/ds/2);
     
     ctx.beginPath();
     ctx.strokeRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);

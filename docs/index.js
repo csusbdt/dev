@@ -46,3 +46,7 @@ t_san_francisco[0].starts(t_palace       );
 
 palace.start();
 start_start_sets(t_palace);
+
+set_design(palace.i.width, palace.i.height);
+
+image(i_palace, -272, 0, 10, 100/645).start();

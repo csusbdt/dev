@@ -161,6 +161,11 @@ function animation_loop() {
 	if (dirty) {
 		ctx.setTransform(1, 0, 0, 1, 0, 0);	
 		ctx.clearRect(0, 0, canvas.width, canvas.height);	
+
+        const ds = scale();
+        ctx.scale(ds, ds);
+        ctx.translate(canvas.width/ds/2, canvas.height/ds/2);
+
 		drawables.forEach(o => o.draw(ctx));
 		dirty = false;
 	}

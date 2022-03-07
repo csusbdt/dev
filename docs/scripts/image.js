@@ -26,19 +26,10 @@ c_image.prototype.stopped = function() {
 
 c_image.prototype.draw = function(ctx, x = 0, y = 0, z = 0, s = 1) {
 	ctx.save();
-
-//	ctx.setTransform(1, 0, 0, 1, 0, 0);
-//    const s = (dw === null) ? 1 : Math.min(canvas.width / dw, canvas.height / dh);
-//    ctx.scale(s, s);
-//    ctx.translate(canvas.width / s / 2, canvas.height / s / 2);
-
-    
-	ctx.setTransform(1, 0, 0, 1, 0, 0);
-    const ds = (dw === null) ? this.s * s : this.s * s * Math.min(canvas.width / dw, canvas.height / dh);
-    ctx.scale(ds, ds);
-    ctx.translate(-this.i.width / 2, -this.i.height / 2);
-    ctx.translate(canvas.width / ds / 2, canvas.height / ds / 2);
-    ctx.drawImage(this.i, this.x, this.y);
+    ctx.scale(this.s, this.s);
+    ctx.translate(-this.i.width/2, -this.i.height/2);
+    ctx.translate(this.x/this.s, this.y/this.s);
+    ctx.drawImage(this.i, 0, 0);
     ctx.restore();
 };
 
@@ -49,8 +40,7 @@ export function image(i, x = 0, y = 0, z = 0, s = 1) {
 export function background(i) {
     const o = image(i, 0, 0, -10000);
     o.start = _ => {
-        window.dw = i.width;
-        window.dh = i.height; 
+        set_design(i.width, i.height);
         add_drawable(o);
     	return o;
     }
