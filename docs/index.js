@@ -7,10 +7,6 @@ import { sfx       }         from "./scripts/sfx.js";
 
 const blop = sfx("../sfx/blop_0.264.mp3", .5);
 
-// test
-//const bg = image(i_palace_of_electricity).start();
-//set_design(bg.i.width, bg.i.height);
-
 const palace        = background(i_palace       );
 const san_francisco = background(i_san_francisco);
 const india         = background(i_india        );
@@ -46,7 +42,3 @@ t_san_francisco[0].starts(t_palace       );
 
 palace.start();
 start_start_sets(t_palace);
-
-set_design(palace.i.width, palace.i.height);
-
-image(i_palace, -272, 0, 10, 100/645).start();
