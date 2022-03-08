@@ -3,32 +3,100 @@ import { background, image } from "./scripts/image.js";
 import { circle    }         from "./scripts/circle.js";
 import { rect      }         from "./scripts/rect.js";
 import { touch     }         from "./scripts/touch.js";
-import { sfx       }         from "./scripts/sfx.js";
+//import { sfx       }         from "./scripts/sfx.js";
+import { text      }         from "./scripts/text.js";
 
-const blop = sfx("../sfx/blop_0.264.mp3", .5);
+//const blop = sfx("../sfx/blop_0.264.mp3", .5);
 
 const palace        = background(i_palace       );
 const san_francisco = background(i_san_francisco);
 const india         = background(i_india        );
 
-function f(bg, left, right) {
+const text_palace        = text("Paris, 1900"        , "36px serif", 0, 0);
+const text_san_francisco = text("San Fransisco, 1900", "36px serif", 0, 0);
+const text_india         = text("Delhi, late 1800's" , "36px serif", 0, 0);
+
+function rect_left(bg) {
     const w        = bg.i.width;
     const h        = bg.i.height;
-    const r_left   = rect(-w/3, 0, w/3, h);
-    const r_middle = rect(   0, 0, w/3, h);
-    const r_right  = rect( w/3, 0, w/3, h);
-    const t_left   = touch(r_left  ).stops(bg).starts(left);
-    const t_middle = touch(r_middle).starts(blop);
-    const t_right  = touch(r_right ).stops(bg).starts(right);
-    const touches  = [t_left, t_middle, t_right];
-    return touches;
+    return rect(-w/3, 0, w/3, h);    
 }
 
-const t_palace        = f(palace, india, san_francisco);
-const t_san_francisco = f(san_francisco, palace, india);
-const t_india         = f(india, san_francisco, palace);
+function rect_middle(bg) {
+    const w        = bg.i.width;
+    const h        = bg.i.height;
+    return rect(0, 0, w/3, h);    
+}
 
-t_palace       [1].starts(t_palace       );
+function rect_right(bg) {
+    const w        = bg.i.width;
+    const h        = bg.i.height;
+    return rect(w/3, 0, w/3, h);    
+}
+
+const r_left_palace          = rect_left(palace);
+const r_left_san_francisco   = rect_left(san_francisco);
+const r_left_india           = rect_left(india);
+const r_middle_palace        = rect_middle(palace);
+const r_middle_san_francisco = rect_middle(san_francisco);
+const r_middle_india         = rect_middle(india);
+const r_right_palace         = rect_right(palace);
+const r_right_san_francisco  = rect_right(san_francisco);
+const r_right_india          = rect_right(india);
+
+const t_left_palace          = touch(r_left_palace);
+const t_left_san_francisco   = touch(r_left_san_francisco);
+const t_left_india           = touch(r_left_india);
+const t_middle_palace        = touch(r_middle_palace);
+const t_middle_san_francisco = touch(r_middle_san_francisco);
+const t_middle_india         = touch(r_middle_india);
+const t_right_palace         = touch(r_right_palace);
+const t_right_san_francisco  = touch(r_right_san_francisco);
+const t_right_india          = touch(r_right_india);
+const t_text_palace          = touch(r_middle_palace);
+const t_text_san_francisco   = touch(r_middle_san_francisco);
+const t_text_india           = touch(r_middle_india);
+
+const touches_palace             = [t_left_palace, t_middle_palace, t_right_palace];
+const touches_san_francisco      = [t_left_san_francisco, t_middle_san_francisco, t_right_san_francisco];
+const touches_india              = [t_left_india, t_middle_india, t_right_india];
+const touches_text_palace        = [t_left_palace, t_text_palace, t_right_palace];
+const touches_text_san_francisco = [t_left_san_francisco, t_text_san_francisco, t_right_san_francisco];
+const touches_text_india         = [t_left_india, t_text_india, t_right_india];
+
+t_left_palace.stops(text_palace);
+t_left_san_francisco.stops(text_san_francisco);
+t_left_india.stops(text_india);
+//t_middle_palace
+//t_middle_san_francisco
+//t_middle_india
+t_right_palace.stops(text_palace);
+t_right_san_francisco.stops(text_san_francisco);
+t_right_india.stops(text_india);
+t_text_palace.stops(text_palace);
+t_text_san_francisco.stops(text_san_francisco);
+t_text_india.stops(text_india);
+
+t_left_palace.starts();
+t_left_san_francisco
+t_left_india
+t_middle_palace
+t_middle_san_francisco
+t_middle_india
+t_right_palace
+t_right_san_francisco
+t_right_india
+t_text_palace
+t_text_san_francisco
+t_text_india
+
+
+
+
+
+const t_text_palace..stops(palace_text).starts(t_palace);
+
+t_palace       [1].starts(palace_text, t_palace_text  );
 t_san_francisco[1].starts(t_san_francisco);
 t_india        [1].starts(t_india        );
 
@@ -42,3 +110,5 @@ t_san_francisco[0].starts(t_palace       );
 
 palace.start();
 start_start_sets(t_palace);
+
+//t_palace[1].starts(palace_text, t_palace_text);
