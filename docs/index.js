@@ -12,25 +12,25 @@ const palace        = background(i_palace       );
 const san_francisco = background(i_san_francisco);
 const india         = background(i_india        );
 
-const text_palace        = text("Paris, 1900"        , "36px serif", 0, 0);
-const text_san_francisco = text("San Fransisco, 1900", "36px serif", 0, 0);
-const text_india         = text("Delhi, late 1800's" , "36px serif", 0, 0);
+const text_palace        = text("Paris, 1900"        , "36px serif", -200, -160);
+const text_san_francisco = text("San Francisco, 1900", "18px serif", -80, -190);
+const text_india         = text("Delhi, late 1800's" , "38px serif", -170, -290);
 
 function rect_left(bg) {
-    const w        = bg.i.width;
-    const h        = bg.i.height;
+    const w = bg.i.width;
+    const h = bg.i.height;
     return rect(-w/3, 0, w/3, h);    
 }
 
 function rect_middle(bg) {
-    const w        = bg.i.width;
-    const h        = bg.i.height;
+    const w = bg.i.width;
+    const h = bg.i.height;
     return rect(0, 0, w/3, h);    
 }
 
 function rect_right(bg) {
-    const w        = bg.i.width;
-    const h        = bg.i.height;
+    const w = bg.i.width;
+    const h = bg.i.height;
     return rect(w/3, 0, w/3, h);    
 }
 
@@ -64,51 +64,31 @@ const touches_text_palace        = [t_left_palace, t_text_palace, t_right_palace
 const touches_text_san_francisco = [t_left_san_francisco, t_text_san_francisco, t_right_san_francisco];
 const touches_text_india         = [t_left_india, t_text_india, t_right_india];
 
-t_left_palace.stops(text_palace);
-t_left_san_francisco.stops(text_san_francisco);
-t_left_india.stops(text_india);
+t_left_palace.stops(palace, text_palace);
+t_left_san_francisco.stops(san_francisco, text_san_francisco);
+t_left_india.stops(india, text_india);
 //t_middle_palace
 //t_middle_san_francisco
 //t_middle_india
-t_right_palace.stops(text_palace);
-t_right_san_francisco.stops(text_san_francisco);
-t_right_india.stops(text_india);
+t_right_palace.stops(palace, text_palace);
+t_right_san_francisco.stops(san_francisco, text_san_francisco);
+t_right_india.stops(india, text_india);
 t_text_palace.stops(text_palace);
 t_text_san_francisco.stops(text_san_francisco);
 t_text_india.stops(text_india);
 
-t_left_palace.starts();
-t_left_san_francisco
-t_left_india
-t_middle_palace
-t_middle_san_francisco
-t_middle_india
-t_right_palace
-t_right_san_francisco
-t_right_india
-t_text_palace
-t_text_san_francisco
-t_text_india
-
-
-
-
-
-const t_text_palace..stops(palace_text).starts(t_palace);
-
-t_palace       [1].starts(palace_text, t_palace_text  );
-t_san_francisco[1].starts(t_san_francisco);
-t_india        [1].starts(t_india        );
-
-t_palace       [2].starts(t_san_francisco);
-t_san_francisco[2].starts(t_india        );
-t_india        [2].starts(t_palace       );
-
-t_palace       [0].starts(t_india        );
-t_india        [0].starts(t_san_francisco);
-t_san_francisco[0].starts(t_palace       );
+t_left_palace.starts(india, touches_india);
+t_left_san_francisco.starts(palace, touches_palace);
+t_left_india.starts(san_francisco, touches_san_francisco);
+t_middle_palace.starts(text_palace, touches_text_palace);
+t_middle_san_francisco.starts(text_san_francisco, touches_text_san_francisco);
+t_middle_india.starts(text_india, touches_text_india);
+t_right_palace.starts(san_francisco, touches_san_francisco);
+t_right_san_francisco.starts(india, touches_india);
+t_right_india.starts(palace, touches_palace);
+t_text_palace.starts(touches_palace);
+t_text_san_francisco.starts(touches_san_francisco);
+t_text_india.starts(touches_india);
 
 palace.start();
-start_start_sets(t_palace);
-
-//t_palace[1].starts(palace_text, t_palace_text);
+start_start_sets(touches_palace);
