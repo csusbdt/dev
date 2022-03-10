@@ -1,7 +1,7 @@
 function c_frame(i = null, d = 1/8, z = 0, x = 0, y = 0, s = 1) {
 	this.image    = i;
-	this.duration = d;
-	this.z_index  = z;
+	this.d        = d;
+	this.z        = z;
 	this.x        = x;
 	this.y        = y;
 	this.s        = s;

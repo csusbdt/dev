@@ -1,26 +1,14 @@
-function c_once(frames, z_index = 10, x = 0, y = 0) {
+function c_once(frames, z = 10, x = 0, y = 0) {
 	this.frames = frames;
-	this.z_index = z_index;
+	this.z = z;
 	this.x = x;
 	this.y = y;
 	this.start_set = [];
 	this.stop_set  = [];
 }
 
-c_once.prototype.vert = mixin.vert;
-c_once.prototype.check_vert = mixin.check_vert;
-
-//c_once.prototype.set_x = function(x) {
-//	this.x = x;
-//	dirty = true;
-//	return this;
-//}
-
-//c_once.prototype.set_y = function(y) {
-//	this.y = y;
-//	dirty = true;
-//	return this;
-//}
+//c_once.prototype.vert = mixin.vert;
+//c_once.prototype.check_vert = mixin.check_vert;
 
 c_once.prototype.copy = function() {
 	return new c_once(this.frames, this.z_index, this.x, this.y);	
@@ -42,13 +30,13 @@ c_once.prototype.start = function() {
 };
 
 c_once.prototype.draw = function(ctx) {
-	this.check_vert();
+//	this.check_vert();
 	this.frames[this.frame_index].draw(ctx, this.x, this.y);
 };
 
 c_once.prototype.update = function(dt) {
 	this.elapsed_time += dt;
-	if (this.elapsed_time > this.frames[this.frame_index].duration) {
+	if (this.elapsed_time > this.frames[this.frame_index].d) {
 		this.elapsed_time = 0;
 		++this.frame_index;
 		dirty = true;
@@ -61,10 +49,10 @@ c_once.prototype.update = function(dt) {
 	}
 };
 
-export const once = function(frames, z_index = 10, x = 0, y = 0) {
+export const once = function(frames, z = 10, x = 0, y = 0) {
 	if (Array.isArray(frames)) {
-		return new c_once(frames, z_index, x, y);
+		return new c_once(frames, z, x, y);
 	} else {
-		return new c_once([frames], z_index, x, y);
+		return new c_once([frames], z, x, y);
 	}
 };
