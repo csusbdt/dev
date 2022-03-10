@@ -6,22 +6,16 @@ import { touch      }         from "../scripts/touch.js";
 import { text       }         from "../scripts/text.js";
 import { sfx        }         from "../scripts/sfx.js";
 import { once       }         from "../scripts/once.js";
-import { delay      }         from "../scripts/delay.js";
-import { get_state  }         from "../scripts/state.js";
+import { delay          }         from "../scripts/delay.js";
+import { get_state, set }         from "../scripts/state.js";
 
 const state = get_state("photos", { version: '0' });
 
-//state.init("photos", { version: '0' });
-
 const blop = sfx("../sfx/blop_0.264.mp3", .5);
 
-const palace        = background(i_palace       );
-const san_francisco = background(i_san_francisco);
-const india         = background(i_india        );
-
-palace       .starts(state.set.bind(state, "src", i_palace.src       ));
-san_francisco.starts(state.set.bind(state, "src", i_san_francisco.src));
-india        .starts(state.set.bind(state, "src", i_india.src        ));
+const palace        = background(i_palace       ).starts(set("src", i_palace.src       ));
+const san_francisco = background(i_san_francisco).starts(set("src", i_san_francisco.src));
+const india         = background(i_india        ).starts(set("src", i_india.src        ));
 
 const text_palace        = text("Paris, 1900"        , "36px serif", -200, -160);
 const text_san_francisco = text("San Francisco, 1900", "18px serif", -80, -190);

@@ -37,7 +37,14 @@ c_state.prototype.set = function(key, value) {
     localStorage.setItem(this.name, JSON.stringify(this.state));
 };
 
+let state = null;
+
 export const get_state = function(name, initial = null) {
-    return (new c_state(name, initial));
+    if (state !== null) throw new Error("get_state should be called only once");
+    state = new c_state(name, initial);
+    return state;
 };
 
+export const set = function(key, value) {
+    return state.set.bind(state, key, value);
+}
