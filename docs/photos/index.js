@@ -1,18 +1,27 @@
 import "../scripts/main.js";
 import { background, image } from "../scripts/image.js";
-import { circle    }         from "../scripts/circle.js";
-import { rect      }         from "../scripts/rect.js";
-import { touch     }         from "../scripts/touch.js";
-import { text      }         from "../scripts/text.js";
-import { sfx       }         from "../scripts/sfx.js";
-import { once      }         from "../scripts/once.js";
-import { delay     }         from "../scripts/delay.js";
+import { circle     }         from "../scripts/circle.js";
+import { rect       }         from "../scripts/rect.js";
+import { touch      }         from "../scripts/touch.js";
+import { text       }         from "../scripts/text.js";
+import { sfx        }         from "../scripts/sfx.js";
+import { once       }         from "../scripts/once.js";
+import { delay      }         from "../scripts/delay.js";
+import { get_state  }         from "../scripts/state.js";
+
+const state = get_state("photos", { version: '0' });
+
+//state.init("photos", { version: '0' });
 
 const blop = sfx("../sfx/blop_0.264.mp3", .5);
 
 const palace        = background(i_palace       );
 const san_francisco = background(i_san_francisco);
 const india         = background(i_india        );
+
+palace       .starts(state.set.bind(state, "src", i_palace.src       ));
+san_francisco.starts(state.set.bind(state, "src", i_san_francisco.src));
+india        .starts(state.set.bind(state, "src", i_india.src        ));
 
 const text_palace        = text("Paris, 1900"        , "36px serif", -200, -160);
 const text_san_francisco = text("San Francisco, 1900", "18px serif", -80, -190);
@@ -143,5 +152,13 @@ close_back_india.starts(delay(.5).starts(_ => {
     window.location = '../'; 
 }));
 
-palace.start();
-start_start_sets(touches_palace);
+if (state.get("src") === i_san_francisco.src) {
+    san_francisco.start();
+    start_start_sets(touches_san_francisco);
+} else if (state.get("src") === i_india.src) {
+    india.start();
+    start_start_sets(touches_india);
+} else {
+    palace.start();
+    start_start_sets(touches_palace);    
+}

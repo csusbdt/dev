@@ -3,16 +3,23 @@ export function c_loop(frames = [], z = 10, x = 0, y = 0) {
 	this.z = z;
 	this.x = x;
 	this.y = y;
+    this.start_set = [];
+	this.stop_set  = [];
 }
 
 c_loop.prototype.vert = mixin.vert;
 c_loop.prototype.check_vert = mixin.check_vert;
+
+c_loop.prototype.starts = mixin.starts;
+c_loop.prototype.stops  = mixin.stops;
 
 c_loop.prototype.start = function() {
 	this.frame_index  = 0;
 	this.elapsed_time = 0;
 	add_drawable(this);
 	add_updatable(this);
+    stop_stop_sets(this.stop_set);
+	start_start_sets(this.start_set);
 	return this;
 };
 
