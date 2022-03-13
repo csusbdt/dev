@@ -11,8 +11,8 @@ function c_once(frames) {
 //	return new c_once(this.frames, this.x, this.y);	
 //};
 
-//c_once.prototype.starts = mixin.starts;
-//c_once.prototype.stops  = mixin.stops;
+c_once.prototype.starts = mixin.starts;
+c_once.prototype.stops  = mixin.stops;
 
 c_once.prototype.started = function() {
 	return updatables.includes(this);

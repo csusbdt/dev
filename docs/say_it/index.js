@@ -29,7 +29,7 @@ const view_play = [back, t_bg_play, t_back];
 
 const close_back_frames = frames([back.copy(i_back_1), back.copy(i_back_2)]);
 
-const close_back = once(close_back_frames); // HERE /////////////////////////////////////////////////
+const close_back = once(close_back_frames);
 
 const init = _ => {
     clear_drawables();
@@ -40,13 +40,13 @@ const init = _ => {
 init();
 
 t_bg_play.starts(view_play);
-//t_back.starts();
+t_back.stops(back).starts(close_back);
 
 //const play_view  = [back, play, t_play];
 //const pause_view = [back_touch, pause, pause_touch, pause_bg_touch];
 
 //back_closing.starts(delay(.5).starts(_ => { 
-t_back.starts(delay(.5).starts(_ => { 
+close_back.starts(delay(.5).starts(_ => { 
     setTimeout(init, 1000);
     window.location = '../'; 
 }));
