@@ -5,9 +5,10 @@ import { rect       }         from "../scripts/rect.js";
 import { touch      }         from "../scripts/touch.js";
 import { text       }         from "../scripts/text.js";
 import { sfx        }         from "../scripts/sfx.js";
+import { frames     }         from "../scripts/frame.js";
 import { once       }         from "../scripts/once.js";
-import { delay          }         from "../scripts/delay.js";
-import { get_state, set }         from "../scripts/state.js";
+import { delay          }     from "../scripts/delay.js";
+import { get_state, set }     from "../scripts/state.js";
 
 const state = get_state("photos", { version: '0' });
 
@@ -19,27 +20,27 @@ const india         = background(i_india        ).starts(set("src", i_india.src 
 const entrance      = background(i_entrance     ).starts(set("src", i_entrance.src     ));
 
 const text_palace        = text("Paris, 1900"        , "36px serif", -200, -160);
-const text_san_francisco = text("San Francisco, 1900", "18px serif", -80, -190);
+const text_san_francisco = text("San Francisco, 1900", "18px serif",  -80, -190);
 const text_india         = text("Delhi, late 1800's" , "38px serif", -170, -290);
 const text_entrance      = text("unknown"            , "38px serif", -170, -290);
 
-const c_palace_0 = circle(0, 0, 50, 10);
-const c_palace_1 = circle(0, 0, 25, 10);
-const c_palace_2 = circle(0, 0, 10, 10);
+const c_palace_0        = circle(0, 0, 50, 10);
+const c_palace_1        = circle(0, 0, 25, 10);
+const c_palace_2        = circle(0, 0, 10, 10);
 const c_san_francisco_0 = circle(0, 0, 30, 10);
 const c_san_francisco_1 = circle(0, 0, 15, 10);
-const c_san_francisco_2 = circle(0, 0, 5, 10);
-const c_india_0 = circle(0, 0, 70, 10);
-const c_india_1 = circle(0, 0, 35, 10);
-const c_india_2 = circle(0, 0, 15, 10);
-const c_entrance_0 = circle(0, 0, 50, 10);
-const c_entrance_1 = circle(0, 0, 25, 10);
-const c_entrance_2 = circle(0, 0, 10, 10);
+const c_san_francisco_2 = circle(0, 0,  5, 10);
+const c_india_0         = circle(0, 0, 70, 10);
+const c_india_1         = circle(0, 0, 35, 10);
+const c_india_2         = circle(0, 0, 15, 10);
+const c_entrance_0      = circle(0, 0, 50, 10);
+const c_entrance_1      = circle(0, 0, 25, 10);
+const c_entrance_2      = circle(0, 0, 10, 10);
 
 function rect_left(bg) {
     const w = bg.i.width;
     const h = bg.i.height;
-    return rect(-w/3, 0, w/3, h);    
+    return rect(-w/3, 0, w/3, h);
 }
 
 function rect_middle(bg) {
@@ -89,10 +90,10 @@ const t_text_san_francisco   = touch(r_middle_san_francisco);
 const t_text_india           = touch(r_middle_india);
 const t_text_entrance        = touch(r_middle_entrance);
 
-const close_back_palace        = once([c_palace_1, c_palace_2]);
-const close_back_san_francisco = once([c_san_francisco_1, c_san_francisco_2]);
-const close_back_india         = once([c_india_1, c_india_2]);
-const close_back_entrance      = once([c_entrance_1, c_entrance_2]);
+const close_back_palace        = once(frames([c_palace_1, c_palace_2]));
+const close_back_san_francisco = once(frames([c_san_francisco_1, c_san_francisco_2]));
+const close_back_india         = once(frames([c_india_1, c_india_2]));
+const close_back_entrance      = once(frames([c_entrance_1, c_entrance_2]));
 
 const touches_palace             = [t_left_palace, t_middle_palace, t_right_palace];
 const touches_san_francisco      = [t_left_san_francisco, t_middle_san_francisco, t_right_san_francisco];

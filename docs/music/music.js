@@ -18,10 +18,10 @@ function create_circle(i) {
 
 document.body.style.backgroundColor = "rgb(175, 182, 44)";
 
-const thud = sfx("../sfx/thud_0.966.mp3", .5);
-const blop = sfx("../sfx/blop_0.264.mp3", .5);
+const thud = sfx("../sfx/thud_0.966.mp3", .4);
+const blop = sfx("../sfx/blop_0.264.mp3", .4);
 
-const m = music("say_it_isnt_so.mp3", .7);
+const m = music(window.music_url, window.music_volume);
 
 const back   = image(i_back_0, -220, 0).vert(0, -200);
 const play   = image(i_play_0,  120, 0).vert(0,  100);
@@ -71,9 +71,11 @@ t_pause.stops(pause).starts(close_pause);
 t_play .starts(m);
 t_pause.stops (m);
 
+m.stops(pause).starts(clear_touchables, close_pause);
+
 close_back.starts(delay(.5).starts(_ => { 
     setTimeout(init, 1000);
-    window.location = '../'; 
+    window.location = window.back_url; 
 }));
 
 close_play.starts(open_pause);

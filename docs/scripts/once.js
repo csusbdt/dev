@@ -4,13 +4,6 @@ function c_once(frames) {
 	this.stop_set  = [];
 }
 
-//c_once.prototype.vert = mixin.vert;
-//c_once.prototype.check_vert = mixin.check_vert;
-
-//c_once.prototype.copy = function() {
-//	return new c_once(this.frames, this.x, this.y);	
-//};
-
 c_once.prototype.starts = mixin.starts;
 c_once.prototype.stops  = mixin.stops;
 
@@ -25,11 +18,6 @@ c_once.prototype.start = function() {
 	add_drawable(this.frames[0].drawable);
 	return this;
 };
-
-//c_once.prototype.draw = function(ctx) {
-//	this.check_vert();
-//	this.frames[this.frame_index].draw(ctx, this.x, this.y, this.s);
-//};
 
 c_once.prototype.update = function(dt) {
 	this.elapsed_time += dt;
