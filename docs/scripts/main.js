@@ -84,9 +84,17 @@ window.audio_context = null;
 window.touchables    = [];
 
 window.add_touchable = function(o) {
-	if (!touchables.includes(o)) {
-		touchables.push(o);
+	if (!('z' in o)) {
+		throw new Error("z missing fram touchable");
 	}
+	if (touchables.includes(o)) return;
+	for (let i = 0; i < touchables.length; ++i) {
+		if (o.z < touchables[i].z) {
+			touchables.splice(i, 0, o);
+			return;
+		}
+	}
+	touchables.push(o);
 };
 
 window.remove_touchable = function(o) {
@@ -166,7 +174,7 @@ function animation_loop() {
         ctx.scale(ds, ds);
         ctx.translate(canvas.width/ds/2, canvas.height/ds/2);
 
-		drawables.forEach(o => o.draw(ctx));
+        drawables.forEach(o => o.draw(ctx));
 		dirty = false;
 	}
 	let dt = current_time - previous_time;

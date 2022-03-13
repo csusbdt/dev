@@ -1,8 +1,8 @@
-export function c_loop(frames = [], z = 10, x = 0, y = 0) {
+export function c_loop(frames = [], x = 0, y = 0, z = 10) {
 	this.frames = frames;
-	this.z = z;
 	this.x = x;
 	this.y = y;
+	this.z = z;
     this.start_set = [];
 	this.stop_set  = [];
 }
@@ -62,10 +62,10 @@ c_loop.prototype.update = function(dt) {
 	}
 };
 
-export function loop(frames, z = 10, x = 0, y = 0) {
+export function loop(frames, x = 0, y = 0, z = 10) {
 	if (Array.isArray(frames)) {
-		return new c_loop(frames, z, x, y);
+		return new c_loop(frames, x, y, z);
 	} else {
-		return new c_loop([frames], z, x, y);
+		return new c_loop([frames], x, y, z);
 	}
 }

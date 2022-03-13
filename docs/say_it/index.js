@@ -1,13 +1,14 @@
 import "../scripts/main.js";
+import { sfx        }         from "../scripts/sfx.js";
+import { music      }         from "../scripts/music.js";
+import { touch      }         from "../scripts/touch.js";
+
 import { image      }         from "../scripts/image.js";
+
 import { frames, frame } from "../scripts/frame.js" ;
-//import { background, image } from "../scripts/image.js";
 import { circle     }         from "../scripts/circle.js";
 import { loop       }         from "../scripts/loop.js";
 import { once       }         from "../scripts/once.js";
-import { touch      }         from "../scripts/touch.js";
-import { music      }         from "../scripts/music.js";
-import { sfx        }         from "../scripts/sfx.js";
 import { delay          }         from "../scripts/delay.js";
 
 const thud = sfx("../sfx/thud_0.966.mp3", .5);
@@ -17,13 +18,48 @@ const say_it = music("say_it_isnt_so.mp3", .7);
 
 document.body.style.backgroundColor = "rgb(175, 182, 44)";
 
-const back  = image(i_back_0, -220, 0).vert(0, -200);
+const back   = image(i_back_0, -220, 0).vert(0, -200);
+
+const c_back = circle(back.hx, back.hy, back.i.width * .45).vert(back.vx, back.vy, back.i.width * .45);
+
+const t_bg_play = touch(      ).starts(thud);
+const t_back    = touch(c_back).starts(blop);
+
+const view_play = [back, t_bg_play, t_back];
+
+const close_back_frames = frames([back.copy(i_back_1), back.copy(i_back_2)]);
+
+const close_back = once(close_back_frames); // HERE /////////////////////////////////////////////////
+
+const init = _ => {
+    clear_drawables();
+    clear_updatables();
+//    clear_touchables();
+    start_start_sets(view_play);
+};
+init();
+
+t_bg_play.starts(view_play);
+//t_back.starts();
+
+//const play_view  = [back, play, t_play];
+//const pause_view = [back_touch, pause, pause_touch, pause_bg_touch];
+
+//back_closing.starts(delay(.5).starts(_ => { 
+t_back.starts(delay(.5).starts(_ => { 
+    setTimeout(init, 1000);
+    window.location = '../'; 
+}));
+
+
+/*
 const play  = image(i_play_0, 120, 0).vert(0, 100);
 const pause = image(i_pause_0, 120, 0).vert(0, 100);
 //back.start();
 //play.start();
 
-const close_play = once([i_play_1, i_play_2], 120, 0).vert(0, 100);
+const close_play_frames = frames([i_play_1, i_play_2]);
+const close_play        = once(close_play_frames, 120, 0).vert(0, 100);
 
 const c_back = circle(back.hx, back.hy, back.i.width).vert(back.vx, back.vy, back.i.width);
 const c_play = circle(play.hx, play.hy, play.i.width).vert(play.vx, play.vy, play.i.width);
@@ -32,7 +68,12 @@ const t_play = touch(c_play).starts(blop);
 
 t_play.stops(play);
 t_play.starts(close_play);
-close_play.starts(pause);
+*/
+
+
+
+
+//close_play.starts(pause);
 
 
 //const back_frames  = frames([i_back_0 ]);
@@ -60,22 +101,9 @@ close_play.starts(pause);
 
 //const back_touch      = touch(circle( 70,  70,  53)).vert(270, 180);
 //const play_touch      = touch(circle(608, 327, 110)).vert(-270, 340);
-const t_bg   = touch().starts(thud);
 
 //const pause_touch     = touch(circle(620, 316, 126)).vert(-270, 340);
 //const pause_bg_touch  = touch();
-
-const play_view  = [back, play, t_play];
-//const pause_view = [back_touch, pause, pause_touch, pause_bg_touch];
-
-const init = _ => {
-    clear_drawables();
-    clear_updatables();
-    clear_touchables();
-//    back.start();
-    start_start_sets(play_view);
-};
-init();
 
 /*
 back_touch.stops(back).starts(blop, back_closing);

@@ -1,0 +1,35 @@
+<html><head><title>dev</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<style>
+img {
+    display: none;
+}
+body {
+    background-color: whitesmoke;
+    margin: 0;
+    padding: 0;
+}
+canvas {
+    z-index: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+}
+</style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+
+<script type="module">
+import "./scripts/main.js";
+import { waves } from "./waves.js";
+
+document.body.addEventListener('click', _ => {
+    waves.start();
+});    
+</script>
+
+</body>
+</html>
