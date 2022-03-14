@@ -5,9 +5,6 @@ function c_touch(shapes, z = 0) {
 	this.stop_set  = [];
 }
 
-//c_touch.prototype.vert = mixin.vert;
-//c_touch.prototype.check_vert = mixin.check_vert;
-
 c_touch.prototype.starts = mixin.starts;
 c_touch.prototype.stops  = mixin.stops;
 
@@ -20,7 +17,6 @@ c_touch.prototype.stop = function() {
 };
 
 c_touch.prototype.touch = function(x, y) {
-//	this.check_vert();
 	if (this.shapes === null) {
 		clear_touchables();
 		stop_stop_sets(this.stop_set);
