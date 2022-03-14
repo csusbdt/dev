@@ -1,47 +1,16 @@
-<html><head><title>dev</title>
+<html><head><title>test.html</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <style>
-img {
-    display: none;
-}
 body {
     background-color: whitesmoke;
-    margin: 0;
-    padding: 0;
-}
-canvas {
-    z-index: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
     margin: 0;
     padding: 0;
 }
 </style>
 </head>
 <body>
-<canvas id="canvas"></canvas>
-
 <script type="module">
 import "./scripts/main.js";
-import { image } from "./scripts/image.js";
-
-const palace = image("photos/palace_of_electricity.jpg").fill();
-palace.start();
-
-window.addEventListener('resize', _ => {
-});
-</script>
-
-</body>
-</html>
-
-<!--
-<script type="module">
-import { set_draw } from "./test.js";
-
-const rt3 = Math.sqrt(3);
-const i_flowers = document.getElementById("i_flowers");
 
 function speech_baloon(ctx) {
     ctx.strokeStyle = "black";
@@ -66,42 +35,15 @@ function roundedRect(ctx, x, y, width, height, radius) {
     ctx.stroke();
 }
 
-set_draw(ctx => {
-    ctx.save();
-
-    ctx.save();
-    ctx.translate(-i_flowers.width/2, -i_flowers.height/2);
-    ctx.drawImage(i_flowers, 0, 0);
-    ctx.restore();
-
-    ctx.font = '48px serif';
-    ctx.fillText('Hello', -20, -100, 50);
-
-    const lg = ctx.createLinearGradient(0, 0, 0, 120);
-    lg.addColorStop(0, 'rgba(255, 0, 0, 0)');  
-    lg.addColorStop(.1, 'rgba(255, 0, 0, 1)');  
-    lg.addColorStop(1, 'rgba(255, 0, 0, 1)');  
-
-    ctx.beginPath();
-    ctx.moveTo(  0, -30);
-    ctx.lineTo( 30,  30);
-    ctx.lineTo(-30,  30);
-    ctx.closePath();
-    ctx.fillStyle = lg;
-    ctx.fill();
-    ctx.restore();
-
-    ctx.strokeStyle = "red";
-    ctx.beginPath();
-    ctx.arc(0, 0, rt3/2*60, 0, Math.PI * 2, true);
-    ctx.stroke();
-
-    speech_baloon(ctx);
-    
-    roundedRect(ctx, -100, -100, 50, 50, 8);
-    ctx.fill();
-});
-
+add_drawable(
+    {
+        z: 0,
+        draw: ctx => {
+            speech_baloon(ctx);
+            roundedRect(ctx, -100, -100, 50, 50, 8);
+        }
+    }
+)
 </script>
--->
-    
+</body>
+</html>
